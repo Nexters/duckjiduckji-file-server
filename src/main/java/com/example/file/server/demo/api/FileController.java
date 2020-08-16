@@ -39,7 +39,7 @@ public class FileController {
         Map<String, String> obj = new HashMap<>();
         obj.put("profile_url", fileService.uploadUserProfile(fileDto));
         apiResponse.setBody(obj);
-        return new ResponseEntity(apiResponse, HttpStatus.OK); //에러일때도 처리해줘야됨.
+        return new ResponseEntity(apiResponse, HttpStatus.OK);
     }
 
     @PostMapping("/boardImg")
