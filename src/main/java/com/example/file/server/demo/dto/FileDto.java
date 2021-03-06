@@ -12,5 +12,5 @@ import org.springframework.web.multipart.MultipartFile;
 public class FileDto {
     private String userId;
     private MultipartFile img;
-    private int imgType; // 0 : 프로필 이미지, 1 : 산책 이미지
+    private Integer imgType; // 0 : 프로필 이미지, 1 : 산책 이미지
 }

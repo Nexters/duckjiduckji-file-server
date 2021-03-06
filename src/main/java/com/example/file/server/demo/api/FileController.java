@@ -4,6 +4,7 @@ import com.example.file.server.demo.FileConst;
 import com.example.file.server.demo.common.ApiResponse;
 import com.example.file.server.demo.dto.FileDto;
 import com.example.file.server.demo.exception.FileUploadFailedException;
+import com.example.file.server.demo.exception.ParamInvalidException;
 import com.example.file.server.demo.serivce.FileService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,8 +12,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -34,6 +33,10 @@ public class FileController {
      */
     @PostMapping("/img")
     public ResponseEntity<?> saveProfileImg(FileDto fileDto) {
+
+        if(fileDto.getImg() == null || fileDto.getUserId() == null || fileDto.getImgType() == null) {
+            throw new ParamInvalidException(FileConst.NOT_VALID_PARAMETER);
+        }
 
         log.info("[POST] /upload/img " + fileDto.toString());
 
