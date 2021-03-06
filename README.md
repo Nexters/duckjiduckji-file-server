@@ -18,35 +18,37 @@
 - response 
   - 성공 Case 1 ( 프로필 이미지 )
   ```
-     {
+   {
       "code": "200",
       "msg": "이미지 업도르에 성공하였습니다.",
       "body": {
           "img_url": "http://localhost:8082/profile/xowns4817/profileImg.png"
-      }
+    }
   ```    
   - 성공 Case 2 ( 플로깅 이미지 )
   ```
-     {
+   {
       "code": "200",
       "msg": "이미지 업도르에 성공하였습니다.",
       "body": {
           "img_url": "http://localhost:8082/profile/xowns4817/plogging_2021030612000000.png"
-      }
+    }
   ```  
   
   - 파라미터 오류
   ```
-     {
+  {
     "code": "400",
     "msg": "요청 파라미터를 확인해주세요.",
     "body": { }
+  }
   ```
    
    - 실패
   ```
+  {
     "code": "500",
     "msg": "이미지 업로드에 실패하였습니다.",
     "body": { }
-  }
+   }
   ```
