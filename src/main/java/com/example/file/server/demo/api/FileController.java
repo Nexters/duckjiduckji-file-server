@@ -9,10 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.File;
 import java.io.IOException;
@@ -30,20 +27,20 @@ public class FileController {
     @Autowired
     private ApiResponse apiResponse;
 
-    @PostMapping("/profileImg")
+    /**
+     *  이미지 업로드
+     * @param fileDto
+     * @return
+     */
+    @PostMapping("/img")
     public ResponseEntity<?> saveProfileImg(FileDto fileDto) {
 
         log.info("[POST] /upload/img " + fileDto.toString());
 
-        apiResponse.setMsg(FileConst.SUCCESS_FILE_UPLOAD);
         Map<String, String> obj = new HashMap<>();
-        obj.put("profile_url", fileService.uploadUserProfile(fileDto));
+        obj.put("img_url", fileService.uploadImg(fileDto));
+        apiResponse.setMsg(FileConst.SUCCESS_FILE_UPLOAD);
         apiResponse.setBody(obj);
         return new ResponseEntity(apiResponse, HttpStatus.OK);
-    }
-
-    @PostMapping("/boardImg")
-    public void saveBoardImg( ) {
-
     }
 }
