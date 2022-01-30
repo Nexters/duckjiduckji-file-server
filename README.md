@@ -13,8 +13,8 @@
    - content-type : form-data
 - request body
    - roomId ( String )
-   - contentId ( file )
-   - img( multipart-form )
+   - contentId ( String )
+   - img( multipart-form -> file)
 - response 
   - 성공 Case
   ```
@@ -23,6 +23,7 @@
       "msg": "이미지 업도르에 성공하였습니다.",
       "body": {
           "img_url": "http://localhost:8082/aa/bbb/20220112312353.png"
+      }
     }
   ```    
   
