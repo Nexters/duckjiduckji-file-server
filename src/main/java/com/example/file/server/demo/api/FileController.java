@@ -19,16 +19,18 @@ import java.util.Map;
 
 @RestController
 @Slf4j
-@Getter
+@RequiredArgsConstructor
 public class FileController {
 
-    private FileService fileService;
-    private ApiResponse apiResponse;
+    private final FileService fileService;
+    private final ApiResponse apiResponse;
 
+    /*
     public FileController(FileService fileService, ApiResponse apiResponse) {
         this.fileService = fileService;
         this.apiResponse = apiResponse;
     }
+    */
     /**
      *  이미지 업로드
      * @param fileDto

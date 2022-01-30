@@ -37,21 +37,16 @@ public class FileService {
         String roomId = fileDto.getRoomId();
         String contentId = fileDto.getContentId();
 
-        List<String> folderList = new ArrayList<>();
-        folderList.add(roomId);
-        folderList.add(contentId);
-
-        createFolderRecursive(0, folderList, fileSavePath);
-
-
-        String imgPath = doAppendString(new String[]{fileSavePath, "/", roomId, "/", contentId, "/", fileName});
-        String imgReqUrl = doAppendString(new String[]{contextPath, "/", roomId, "/", contentId, "/", fileName});
+        createUploadDictory(roomId, contentId);
 
         try {
+            String imgPath = doAppendString(new String[]{fileSavePath, "/", roomId, "/", contentId, "/", fileName});
             fileDto.getImg().transferTo(new File(imgPath));
         } catch (IOException e) {
             throw new FileUploadFailedException();
         }
+
+        String imgReqUrl = doAppendString(new String[]{contextPath, "/", roomId, "/", contentId, "/", fileName});
         return imgReqUrl;
     };
 
@@ -64,25 +59,33 @@ public class FileService {
         }
     }
 
-    void createFolderRecursive(int d, List<String> folderList, String imgDirPath) {
+    void createUploadDictory(String roomId, String contentId) {
+        List<String> directoryList = new ArrayList<>();
+        directoryList.add(roomId);
+        directoryList.add(contentId);
 
-        if(d == folderList.size()) return;
+        createDirectoryRecursive(0, directoryList, fileSavePath);
+    }
 
-        String folderName = folderList.get(d);
-        String imgPath = doAppendString(new String[]{imgDirPath, "/", folderName});
-        File ContentImageFolder = new File(imgPath); // 컨텐츠 이미지 폴더 생성
+    void createDirectoryRecursive(int d, List<String> directoryList, String imgDirPath) {
+
+        if(d == directoryList.size()) return;
+
+        String directoryName = directoryList.get(d);
+        String imgPath = doAppendString(new String[]{imgDirPath, "/", directoryName});
+        File ContentImageDirectory = new File(imgPath); // 컨텐츠 이미지 폴더 생성
 
         // 폴더가 없을 경우 폴더 생성
-        if(!ContentImageFolder.exists()) {
+        if(!ContentImageDirectory.exists()) {
             try {
-                ContentImageFolder.mkdir();
+                ContentImageDirectory.mkdir();
             } catch (Exception e) {
                 e.printStackTrace();
                 throw new FileUploadFailedException();
             }
         }
 
-        createFolderRecursive(d+1, folderList, doAppendString(new String[]{imgDirPath, "/", folderName}));
+        createDirectoryRecursive(d+1, directoryList, doAppendString(new String[]{imgDirPath, "/", directoryName}));
     }
 
 

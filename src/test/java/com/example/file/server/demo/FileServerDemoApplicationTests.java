@@ -1,5 +1,6 @@
 package com.example.file.server.demo;
 
+import com.example.file.server.demo.api.FileController;
 import com.example.file.server.demo.exception.FileUploadFailedException;
 import com.example.file.server.demo.util.ApiHelper;
 import org.apache.tomcat.util.http.fileupload.FileUtils;
@@ -30,7 +31,6 @@ class FileServerDemoApplicationTests {
 
     @Test
     void contextLoads() {
-
     }
 
     @Test
