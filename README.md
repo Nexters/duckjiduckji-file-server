@@ -4,9 +4,9 @@
 - WebMvcConfig를 통해 apache, nginx와 같은 서버없이 특정 폴더에 있는 파일을 url요청 가능
 
   - 파일 저장 경로 : /{basePath}/{roomId}/{contentId}/{timestamp}.png (roomId와 contentId가 없으면 해당 폴더 생성)
-  - 파일 요청 경로 : http://localhost:8082/{roomId}/{contentID}/{timestamp}.png
+  - 파일 요청 경로 : http://localhost:8082/{roomId}/{contentId}/{timestamp}.png
 
-### 테스트 방법
+### 이미지 업로드 API
 - http method : POST
 - req url : http://localhost:8082/upload/img
 - request header 
@@ -40,5 +40,38 @@
   {
     "code": "500",
     "msg": "이미지 업로드에 실패하였습니다.",
+   }
+  ```
+
+### 이미지 삭제 API
+- http method : DELETE
+- req url : http://localhost:8082/img
+- request header 
+   - content-type : application/x-www-form-urlencoded
+- request param
+   - roomId ( String )
+   - contentId ( String )
+- response 
+  - 성공 Case
+  ```
+   {
+      "code": "200",
+      "msg": "이미지 삭제를 완료하였습니다..",
+    }
+  ```    
+  
+  - 파라미터 오류
+  ```
+  {
+    "code": "400",
+    "msg": "요청 파라미터를 확인해주세요.",
+  }
+  ```
+   
+   - 실패
+  ```
+  {
+    "code": "500",
+    "msg": "이미지 삭제에 실패하였습니다.",
    }
   ```
