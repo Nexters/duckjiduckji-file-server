@@ -10,7 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 @Builder
 @ToString
 public class FileDto {
-    private String userId;
+    private String roomId;
+    private String contentId;
     private MultipartFile img;
-    private Integer imgType; // 0 : 프로필 이미지, 1 : 산책 이미지
 }

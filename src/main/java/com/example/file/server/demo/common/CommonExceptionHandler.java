@@ -12,6 +12,8 @@ public class CommonExceptionHandler {
     // Server Error
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<?> runtimeException(RuntimeException e) {
+
+        e.printStackTrace();
         return new ResponseEntity<>(
                 ApiResponse
                         .builder()
@@ -25,6 +27,8 @@ public class CommonExceptionHandler {
     // parameter Error
     @ExceptionHandler({ParamInvalidException.class})
     public ResponseEntity<?> img400Exception(Exception e) {
+
+        e.printStackTrace();
         return new ResponseEntity<>(
                 ApiResponse
                         .builder()

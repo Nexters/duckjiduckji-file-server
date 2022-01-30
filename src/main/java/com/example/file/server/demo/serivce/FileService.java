@@ -4,12 +4,15 @@ import com.example.file.server.demo.dto.FileDto;
 import com.example.file.server.demo.exception.FileUploadFailedException;
 import com.example.file.server.demo.util.ApiHelper;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @Slf4j
@@ -21,50 +24,60 @@ public class FileService {
     @Value("${contextPath}")
     private String contextPath;
 
-    private String imgReqUrl;
-
-    @Autowired
     private ApiHelper apiHelper;
+
+    public FileService(ApiHelper apiHelper) {
+        this.apiHelper = apiHelper;
+    }
 
     public String uploadImg(FileDto fileDto) {
 
-        int imgType = fileDto.getImgType();
+        final String fileName = apiHelper.makeNowTimeStamp() + ".png";
+        String roomId = fileDto.getRoomId();
+        String contentId = fileDto.getContentId();
 
-        // 해당 유저에 대한 디렉토리 없으면 생성해줌.
-        String imgDirPath = null;
-        String imgPath = null;
+        List<String> folderList = new ArrayList<>();
+        folderList.add(roomId);
+        folderList.add(contentId);
 
-        if(imgType == 0) { // 프로필 이미지
-            final String fileName = "profileImg.png";
-            imgDirPath = fileSavePath + "profile/" + fileDto.getUserId();
-            imgPath = imgDirPath + "/" + fileName;
-            imgReqUrl = contextPath + "/profile/" + fileDto.getUserId() + "/" + fileName;
-        }
-        else if(imgType == 1) { // 플로깅 이미지
-            final String fileName = "plogging_" + apiHelper.makeNowTimeStamp() + ".png";
-            imgDirPath = fileSavePath + "plogging/" + fileDto.getUserId();
-            imgPath = imgDirPath + "/" + fileName;
-            imgReqUrl = contextPath + "/plogging/" + fileDto.getUserId() + "/" + fileName;
-        }
+        createFolderRecursive(0, folderList, fileSavePath);
 
-        File UserProfileFolder = new File(imgDirPath); // 유저 이름의 폴더 생성
-
-        // 유저 폴더가 없을 경우 폴더 생성
-        if(!UserProfileFolder.exists()) {
-            try {
-                UserProfileFolder.mkdir(); // 유저 id 폴더 생성
-            } catch (Exception e) {
-                log.info("[upload profile] Error : " + e.getMessage());
-                throw new FileUploadFailedException();
-            }
-        }
+        String imgPath = fileSavePath + "/" + roomId + "/" + contentId + "/" + fileName;
+        String imgReqUrl = contextPath + "/" + roomId + "/" + contentId + "/" + fileName;
 
         try {
             fileDto.getImg().transferTo(new File(imgPath));
-            return imgReqUrl;
         } catch (IOException e) {
-            log.info("[upload profile] Error : " + e.getMessage());
             throw new FileUploadFailedException();
         }
+        return imgReqUrl;
     };
+
+    public void removeImg(String roomId, String contentId) {
+        try {
+            FileUtils.deleteDirectory(new File(fileSavePath + "/" + roomId + "/" + contentId)); // 맨 끝 디렉토리 기준 하위 디렉토리 모두 삭제
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    void createFolderRecursive(int d, List<String> folderList, String imgDirPath) {
+
+        if(d == folderList.size()) return;
+
+        String folderName = folderList.get(d);
+        String imgPath = imgDirPath + "/" + folderName;
+        File ContentImageFolder = new File(imgPath); // 컨텐츠 이미지 폴더 생성
+
+        // 폴더가 없을 경우 폴더 생성
+        if(!ContentImageFolder.exists()) {
+            try {
+                ContentImageFolder.mkdir();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        createFolderRecursive(d+1, folderList, imgDirPath + "/" + folderName);
+    }
 }

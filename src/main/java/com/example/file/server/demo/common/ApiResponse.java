@@ -1,6 +1,7 @@
 package com.example.file.server.demo.common;
 
 import lombok.*;
+import org.springframework.lang.Nullable;
 
 @Setter
 @Getter
@@ -10,5 +11,6 @@ import lombok.*;
 public class ApiResponse<T> {
     String code;
     String msg;
+    @Nullable
     T body;
 }
