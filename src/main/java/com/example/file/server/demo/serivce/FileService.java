@@ -1,6 +1,7 @@
 package com.example.file.server.demo.serivce;
 
 import com.example.file.server.demo.dto.FileDto;
+import com.example.file.server.demo.exception.FileRemoveFailedException;
 import com.example.file.server.demo.exception.FileUploadFailedException;
 import com.example.file.server.demo.util.ApiHelper;
 import lombok.extern.slf4j.Slf4j;
@@ -42,8 +43,9 @@ public class FileService {
 
         createFolderRecursive(0, folderList, fileSavePath);
 
-        String imgPath = fileSavePath + "/" + roomId + "/" + contentId + "/" + fileName;
-        String imgReqUrl = contextPath + "/" + roomId + "/" + contentId + "/" + fileName;
+
+        String imgPath = doAppendString(new String[]{fileSavePath, "/", roomId, "/", contentId, "/", fileName});
+        String imgReqUrl = doAppendString(new String[]{contextPath, "/", roomId, "/", contentId, "/", fileName});
 
         try {
             fileDto.getImg().transferTo(new File(imgPath));
@@ -55,9 +57,10 @@ public class FileService {
 
     public void removeImg(String roomId, String contentId) {
         try {
-            FileUtils.deleteDirectory(new File(fileSavePath + "/" + roomId + "/" + contentId)); // 맨 끝 디렉토리 기준 하위 디렉토리 모두 삭제
+            FileUtils.deleteDirectory(new File(doAppendString(new String[]{fileSavePath, "/", roomId, "/", contentId}))); // 맨 끝 디렉토리 기준 하위 디렉토리 모두 삭제
         } catch (IOException e) {
             e.printStackTrace();
+            throw new FileRemoveFailedException();
         }
     }
 
@@ -66,7 +69,7 @@ public class FileService {
         if(d == folderList.size()) return;
 
         String folderName = folderList.get(d);
-        String imgPath = imgDirPath + "/" + folderName;
+        String imgPath = doAppendString(new String[]{imgDirPath, "/", folderName});
         File ContentImageFolder = new File(imgPath); // 컨텐츠 이미지 폴더 생성
 
         // 폴더가 없을 경우 폴더 생성
@@ -75,9 +78,20 @@ public class FileService {
                 ContentImageFolder.mkdir();
             } catch (Exception e) {
                 e.printStackTrace();
+                throw new FileUploadFailedException();
             }
         }
 
-        createFolderRecursive(d+1, folderList, imgDirPath + "/" + folderName);
+        createFolderRecursive(d+1, folderList, doAppendString(new String[]{imgDirPath, "/", folderName}));
+    }
+
+
+    public String doAppendString(String[ ] strArr) {
+        StringBuilder sb = new StringBuilder();
+
+        for(int i=0; i<strArr.length; i++) {
+            sb.append(strArr[i]);
+        }
+        return sb.toString();
     }
 }
