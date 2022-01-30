@@ -19,7 +19,6 @@ import java.util.Map;
 
 @RestController
 @Slf4j
-@RequestMapping("/upload")
 @Getter
 public class FileController {
 
@@ -36,7 +35,7 @@ public class FileController {
      * @param fileDto
      * @return
      */
-    @PostMapping("/img")
+    @PostMapping("/upload/img")
     public ResponseEntity<?> saveImg(FileDto fileDto) {
 
         log.info(fileDto.toString());
@@ -57,7 +56,7 @@ public class FileController {
     public ResponseEntity<?> deleteImg(@RequestParam("roomId") String roomId,
                                        @RequestParam("contentId") String contentId) {
 
-        if(contentId == null) {
+        if(roomId == null || contentId == null) {
             throw new ParamInvalidException(FileConst.NOT_VALID_PARAMETER);
         }
 

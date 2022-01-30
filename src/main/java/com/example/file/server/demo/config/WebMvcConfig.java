@@ -16,6 +16,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/**") // 요청 URL
                 //.addResourceLocations("classpath:/static/"); // 실제 파일이 위치한 경로
-                .addResourceLocations("file:///" + fileSavePath); // 실제 파일이 위치한 경로
+                //.addResourceLocations("file:///" + fileSavePath); // 실제 파일이 위치한 경로 (윈도우)
+                .addResourceLocations("file:" + fileSavePath + "/"); // 실제 파일이 위치한 경로 (리눅스) -> 맨뒤에 "/"를 붙여줘여됨...
     }
 }

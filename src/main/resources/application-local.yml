@@ -1,4 +1,10 @@
 
+server:
+  port: 8082
+
+filePath: /mnt/duckjiduckji
+contextPath: http://localhost:8082
+
 # File Upload Size
 spring:
   servlet:
@@ -6,9 +12,4 @@ spring:
       max-file-size: 5MB
       max-request-size: 5MB
 
-server:
-  port: 8082
-
-filePath: /mnt/duckjiduckji
-contextPath: http://localhost:8082
 
