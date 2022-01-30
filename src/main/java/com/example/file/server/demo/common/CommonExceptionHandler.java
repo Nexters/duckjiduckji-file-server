@@ -19,7 +19,7 @@ public class CommonExceptionHandler {
                         .builder()
                         .code("500")
                         .msg(e.getMessage())
-                        .body("")
+                        .body(null)
                         .build()
                 , HttpStatus.INTERNAL_SERVER_ERROR);
     }
@@ -34,7 +34,7 @@ public class CommonExceptionHandler {
                         .builder()
                         .code("400")
                         .msg(e.getMessage())
-                        .body("")
+                        .body(null)
                         .build()
                 , HttpStatus.BAD_REQUEST);
     }
