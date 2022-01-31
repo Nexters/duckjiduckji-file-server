@@ -5,6 +5,12 @@ server:
 filePath: /mnt/duckjiduckji
 contextPath: http://localhost:8082
 
+log:
+  level: info
+  config:
+    path: /mnt/duckjiduckji/log
+    filename: application-service
+
 # File Upload Size
 spring:
   servlet:

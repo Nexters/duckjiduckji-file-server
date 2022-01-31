@@ -25,26 +25,19 @@ public class FileController {
     private final FileService fileService;
     private final ApiResponse apiResponse;
 
-    /*
-    public FileController(FileService fileService, ApiResponse apiResponse) {
-        this.fileService = fileService;
-        this.apiResponse = apiResponse;
-    }
-    */
     /**
      *  이미지 업로드
      * @param fileDto
      * @return
      */
-    @PostMapping("/upload/img")
+    @PostMapping("/img")
     public ResponseEntity<?> saveImg(FileDto fileDto) {
 
-        log.info(fileDto.toString());
+        log.info("[POST] /img " + fileDto.toString());
+
         if(fileDto.getRoomId() == null || fileDto.getContentId() == null || fileDto.getImg() == null) {
             throw new ParamInvalidException(FileConst.NOT_VALID_PARAMETER);
         }
-
-        log.info("[POST] /upload/img " + fileDto.toString());
 
         Map<String, String> obj = new HashMap<>();
         obj.put("img_url", fileService.uploadImg(fileDto));
@@ -54,8 +47,10 @@ public class FileController {
     }
 
     @DeleteMapping("/img")
-    public ResponseEntity<?> deleteImg(@RequestParam("roomId") String roomId,
-                                       @RequestParam("contentId") String contentId) {
+    public ResponseEntity<?> deleteImg(@RequestParam(value = "roomId", required = false) String roomId,
+                                       @RequestParam(value = "contentId", required = false) String contentId) {
+
+        log.info("[DELETE] /img : " + "roomId : " + roomId + ", contentId : " + contentId);
 
         if(roomId == null || contentId == null) {
             throw new ParamInvalidException(FileConst.NOT_VALID_PARAMETER);
