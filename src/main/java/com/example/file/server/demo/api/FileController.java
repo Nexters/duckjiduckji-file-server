@@ -30,10 +30,10 @@ public class FileController {
      * @param fileDto
      * @return
      */
-    @PostMapping("/upload/img")
+    @PostMapping("/img")
     public ResponseEntity<?> saveImg(FileDto fileDto) {
 
-        log.info("[POST] /upload/img " + fileDto.toString());
+        log.info("[POST] /img " + fileDto.toString());
 
         if(fileDto.getRoomId() == null || fileDto.getContentId() == null || fileDto.getImg() == null) {
             throw new ParamInvalidException(FileConst.NOT_VALID_PARAMETER);
@@ -50,7 +50,7 @@ public class FileController {
     public ResponseEntity<?> deleteImg(@RequestParam(value = "roomId", required = false) String roomId,
                                        @RequestParam(value = "contentId", required = false) String contentId) {
 
-        log.info("[DELETE] //img : " + "roomId : " + roomId + ", contentId : " + contentId);
+        log.info("[DELETE] /img : " + "roomId : " + roomId + ", contentId : " + contentId);
 
         if(roomId == null || contentId == null) {
             throw new ParamInvalidException(FileConst.NOT_VALID_PARAMETER);
