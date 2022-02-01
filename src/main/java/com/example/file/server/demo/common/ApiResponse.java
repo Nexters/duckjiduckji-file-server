@@ -11,8 +11,13 @@ import org.springframework.lang.Nullable;
 @Builder
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ApiResponse<T> {
-    String code;
-    String msg;
+
+    @Builder.Default
+    String code = "200";
+
+    @Builder.Default
+    String msg = "success";
+
     T body;
 }
 

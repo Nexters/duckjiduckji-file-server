@@ -23,7 +23,6 @@ import java.util.Map;
 public class FileController {
 
     private final FileService fileService;
-    private final ApiResponse apiResponse;
 
     /**
      *  이미지 업로드
@@ -41,8 +40,11 @@ public class FileController {
 
         Map<String, String> obj = new HashMap<>();
         obj.put("img_url", fileService.uploadImg(fileDto));
-        apiResponse.setMsg(FileConst.SUCCESS_FILE_UPLOAD);
-        apiResponse.setBody(obj);
+        ApiResponse apiResponse = ApiResponse.builder()
+                                  .msg(FileConst.SUCCESS_FILE_UPLOAD)
+                                  .body(obj)
+                                  .build();
+
         return new ResponseEntity(apiResponse, HttpStatus.OK);
     }
 
@@ -57,7 +59,10 @@ public class FileController {
         }
 
         fileService.removeImg(roomId, contentId);
-        apiResponse.setMsg(FileConst.SUCCESS_FILE_REMOVE);
+        ApiResponse apiResponse = ApiResponse.builder()
+                                  .msg(FileConst.SUCCESS_FILE_REMOVE)
+                                  .build();
+
         return new ResponseEntity(apiResponse, HttpStatus.OK);
     }
 }
