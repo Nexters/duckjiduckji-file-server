@@ -3,10 +3,8 @@
 <configuration scan="true" scanPeriod="60 seconds">
     <!--springProfile 태그를 사용하면 logback 설정파일에서 복수개의 프로파일을 설정할 수 있다.-->
     <!-- setting -->
-    <!--<property resource="application-local.yml"/>-->
-
         <!-- log file path -->
-        <property name="LOG_PATH" value="/mnt/duckjiduckji/log"/>
+        <property name="LOG_PATH" value="/data_2/duckjiduckji/fileServer/log"/>
         <!-- log file name -->
         <property name="LOG_FILE_NAME" value="application-service"/>
         <!-- err log file name -->
