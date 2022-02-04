@@ -33,41 +33,45 @@ public class FileService {
 
     public String uploadImg(FileDto fileDto) {
 
-        final String fileName = apiHelper.makeNowTimeStamp() + ".png";
+        final String fileName = doAppendString(new String[]{"polaroid_", apiHelper.makeNowTimeStamp(), ".png"});
         String roomId = fileDto.getRoomId();
-        String contentId = fileDto.getContentId();
 
-        createUploadDictory(roomId, contentId);
+        createUploadDictory(roomId);
 
         try {
-            String imgPath = doAppendString(new String[]{fileSavePath, "/", roomId, "/", contentId, "/", fileName});
+            String imgPath = doAppendString(new String[]{fileSavePath, "/", roomId, "/", fileName});
+            log.info("imgPath : " + imgPath);
             fileDto.getImg().transferTo(new File(imgPath));
         } catch (IOException e) {
             throw new FileUploadFailedException();
         }
 
-        String imgReqUrl = doAppendString(new String[]{contextPath, "/", roomId, "/", contentId, "/", fileName});
-        return imgReqUrl;
+        return doAppendString(new String[]{contextPath, "/", roomId, "/", fileName});
     };
 
-    public void removeImg(String roomId, String contentId) {
+    public void removeImg(String roomId, String fileName) {
         try {
-            FileUtils.deleteDirectory(new File(doAppendString(new String[]{fileSavePath, "/", roomId, "/", contentId}))); // 맨 끝 디렉토리 기준 하위 디렉토리 모두 삭제
+            if(fileName == null) { // 방에 있는 모든 파일 삭제
+                FileUtils.deleteDirectory(new File(doAppendString(new String[]{fileSavePath, "/", roomId})));
+            } else { // 해당 파일만 삭제
+                File file = new File(doAppendString(new String[]{fileSavePath, "/", roomId, "/", fileName}));
+                boolean delete = file.delete();
+                if(!delete) throw new FileRemoveFailedException();
+            }
         } catch (IOException e) {
             e.printStackTrace();
             throw new FileRemoveFailedException();
         }
     }
 
-    void createUploadDictory(String roomId, String contentId) {
+    private void createUploadDictory(String roomId) {
         List<String> directoryList = new ArrayList<>();
         directoryList.add(roomId);
-        directoryList.add(contentId);
 
         createDirectoryRecursive(0, directoryList, fileSavePath);
     }
 
-    void createDirectoryRecursive(int d, List<String> directoryList, String imgDirPath) {
+    private void createDirectoryRecursive(int d, List<String> directoryList, String imgDirPath) {
 
         if(d == directoryList.size()) return;
 
@@ -75,10 +79,12 @@ public class FileService {
         String imgPath = doAppendString(new String[]{imgDirPath, "/", directoryName});
         File ContentImageDirectory = new File(imgPath); // 컨텐츠 이미지 폴더 생성
 
+        log.info("ContentImageDir : " + ContentImageDirectory);
         // 폴더가 없을 경우 폴더 생성
         if(!ContentImageDirectory.exists()) {
             try {
-                ContentImageDirectory.mkdir();
+                boolean mkdir = ContentImageDirectory.mkdir();
+                if(!mkdir) throw new FileUploadFailedException();
             } catch (Exception e) {
                 e.printStackTrace();
                 throw new FileUploadFailedException();
@@ -88,12 +94,11 @@ public class FileService {
         createDirectoryRecursive(d+1, directoryList, doAppendString(new String[]{imgDirPath, "/", directoryName}));
     }
 
-
-    public String doAppendString(String[ ] strArr) {
+    private String doAppendString(String[] strArr) {
         StringBuilder sb = new StringBuilder();
 
-        for(int i=0; i<strArr.length; i++) {
-            sb.append(strArr[i]);
+        for (String s : strArr) {
+            sb.append(s);
         }
         return sb.toString();
     }

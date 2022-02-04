@@ -11,6 +11,5 @@ import org.springframework.web.multipart.MultipartFile;
 @ToString
 public class FileDto {
     private String roomId;
-    private String contentId;
     private MultipartFile img;
 }

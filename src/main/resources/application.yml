@@ -1,15 +1,38 @@
 
+
+spring:
+  profiles:
+    active: local
+
+# File Upload Size
+  servlet:
+     multipart:
+       max-file-size: 5MB
+       max-request-size: 5MB
+
+server:
+  port: 8082
+
+filePath: C:/Users/KTJ/Desktop/넥스터즈_덕지덕지
+contextPath: http://localhost:8082
+
+---
+spring:
+  profiles: dev
+
+  # File Upload Size
+  servlet:
+    multipart:
+      max-file-size: 5MB
+      max-request-size: 5MB
+
 server:
   port: 8082
 
 filePath: /data_2/duckjiduckji/fileServer/image/content
 contextPath: http://118.32.152.106:40000
 
-# File Upload Size
-spring:
-  servlet:
-    multipart:
-      max-file-size: 5MB
-      max-request-size: 5MB
+
+
 
 
