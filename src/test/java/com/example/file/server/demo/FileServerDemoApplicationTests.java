@@ -42,6 +42,7 @@ class FileServerDemoApplicationTests {
 
     @Test
     @DisplayName("이미지 업로드 API")
+    @Disabled
     void imgUploadTest(){
 
         String roomId = "aaaaaa";
@@ -65,6 +66,7 @@ class FileServerDemoApplicationTests {
 
     @Test
     @DisplayName("이미지 식제 API")
+    @Disabled
     void imgDeleteTest(){
 
         String roomId = "aaaaaa";
