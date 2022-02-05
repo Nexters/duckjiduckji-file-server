@@ -51,7 +51,7 @@
    - roomId ( String ) -> 필수
    - fileName (String) -> Optional
 
-  ** fileName 값이 있으면 roomId의 fileName에 해당하는 파일 삭제 (= 폴라로이드 삭제)
+  ** fileName 값이 있으면 roomId의 fileName에 해당하는 파일 삭제 (= 폴라로이드 삭제) \n
      fileName 값이 없으면 roomId에 있는 파일 전체 삭제 (= 방 삭제)
 - response 
   - 성공 Case
