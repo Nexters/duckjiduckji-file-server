@@ -28,6 +28,7 @@ import java.util.Date;
 import java.util.List;
 
 @SpringBootTest
+@Disabled
 @Slf4j
 class FileServerDemoApplicationTests {
 

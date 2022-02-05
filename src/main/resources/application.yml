@@ -1,8 +1,6 @@
 
-
 spring:
-  profiles:
-    active: local
+  profiles: local
 
 # File Upload Size
   servlet:
