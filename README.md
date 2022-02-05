@@ -12,8 +12,8 @@
 - request header 
    - content-type : form-data
 - request body
-   - roomId ( String )
-   - img( multipart-form -> file)
+   - roomId (String)
+   - img(file)
 - response 
   - 성공 Case
   ```javascript
