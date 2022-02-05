@@ -4,7 +4,7 @@
 - WebMvcConfig를 통해 apache, nginx와 같은 서버없이 특정 폴더에 있는 파일을 url요청 가능
 
   - 파일 저장 경로 : /{basePath}/{roomId}/{contentId}/{timestamp}.png (roomId와 contentId가 없으면 해당 폴더 생성)
-  - 파일 요청 경로 : http://localhost:8082/{roomId}/{contentId}/{timestamp}.png
+  - 파일 요청 경로 : http://localhost:8082/{roomId}}/{timestamp}.png
 
 ### 이미지 업로드 API
 - http method : POST
@@ -13,7 +13,6 @@
    - content-type : form-data
 - request body
    - roomId ( String )
-   - contentId ( String )
    - img( multipart-form -> file)
 - response 
   - 성공 Case
@@ -22,7 +21,7 @@
       "code": "200",
       "msg": "이미지 업도르에 성공하였습니다.",
       "body": {
-          "img_url": "http://localhost:8082/aa/bbb/20220112312353.png"
+          "img_url": "http://localhost:8082/aaasjdlaiwd.../20220112312353.png"
       }
     }
   ```    
@@ -49,8 +48,11 @@
 - request header 
    - content-type : application/x-www-form-urlencoded
 - request param
-   - roomId ( String )
-   - contentId ( String )
+   - roomId ( String ) -> 필수
+   - fileName (String) -> Optional
+
+  ** fileName 값이 있으면 roomId의 fileName에 해당하는 파일 삭제 (= 폴라로이드 삭제)
+     fileName 값이 없으면 roomId에 있는 파일 전체 삭제 (= 방 삭제)
 - response 
   - 성공 Case
   ```
