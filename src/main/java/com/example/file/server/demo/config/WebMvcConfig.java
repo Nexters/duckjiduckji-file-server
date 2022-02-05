@@ -2,6 +2,7 @@ package com.example.file.server.demo.config;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistration;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -18,5 +19,11 @@ public class WebMvcConfig implements WebMvcConfigurer {
                 //.addResourceLocations("classpath:/static/"); // 실제 파일이 위치한 경로
                 //.addResourceLocations("file:///" + fileSavePath); // 실제 파일이 위치한 경로 (윈도우)
                 .addResourceLocations("file:" + fileSavePath + "/"); // 실제 파일이 위치한 경로 (리눅스) -> 맨뒤에 "/"를 붙여줘여됨...
+    }
+
+    @Override
+    public void addCorsMappings(CorsRegistry registry) {
+        registry.addMapping("/**")
+                .allowedOrigins("*");
     }
 }
