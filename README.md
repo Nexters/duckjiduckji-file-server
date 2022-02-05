@@ -8,7 +8,7 @@
 
 ### 이미지 업로드 API
 - http method : POST
-- req url : http://localhost:8082/upload/img
+- req url : http://localhost:8082/img
 - request header 
    - content-type : form-data
 - request body
